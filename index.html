@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#090a0c">
+<title>FRIDAY Intelligence</title>
+
+<style>
+:root{
+ --bg:#090a0c;
+ --panel:#111316;
+ --panel2:#17191c;
+ --line:#34302a;
+ --gold:#ffbd58;
+ --orange:#f28b25;
+ --light:#ffe2a6;
+ --muted:#88847c;
+ --green:#9dbb83;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:#e9e4d9;
+ font-family:Arial,Helvetica,sans-serif;
+ height:100dvh;overflow:hidden;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{
+ width:100%;max-width:650px;height:100%;
+ margin:auto;display:flex;flex-direction:column;
+ padding:0 20px;
+ position:relative;
+}
+header{
+ height:67px;flex-shrink:0;
+ display:flex;align-items:center;
+ justify-content:space-between;
+ border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{
+ width:32px;height:32px;border-radius:10px;
+ border:1px solid #9d672e;
+ display:grid;place-items:center;
+ color:var(--gold);
+ font-size:18px;
+ box-shadow:0 0 12px #f28b2515;
+}
+.brand-name{
+ font-size:17px;letter-spacing:4px;
+ color:var(--light);font-weight:500;
+}
+.brand-sub{
+ font-size:8px;color:var(--muted);
+ letter-spacing:2px;margin-top:4px;
+}
+.connection{
+ display:flex;align-items:center;gap:7px;
+ font-size:9px;letter-spacing:1px;color:var(--green);
+}
+.connection-dot{
+ width:6px;height:6px;border-radius:50%;
+ background:var(--green);
+ box-shadow:0 0 8px var(--green);
+}
+main{
+ flex:1;min-height:0;overflow-y:auto;
+ display:flex;flex-direction:column;
+ align-items:center;
+ scrollbar-width:thin;
+ scrollbar-color:#66502e transparent;
+}
+.section-label{
+ width:100%;display:flex;align-items:center;
+ justify-content:space-between;
+ padding-top:20px;
+ font-size:9px;letter-spacing:2px;
+ color:var(--muted);
+}
+.section-label span:last-child{color:#9c7746}
+.hologram-area{
+ width:100%;display:flex;
+ justify-content:center;align-items:center;
+ padding:22px 0 8px;
+}
+.hologram{
+ width:min(67vw,270px);
+ aspect-ratio:1;position:relative;
+ display:grid;place-items:center;
+}
+.halo{
+ position:absolute;inset:12%;
+ border-radius:50%;
+ background:radial-gradient(circle,#d77b2419,transparent 70%);
+ box-shadow:0 0 65px #ef912015;
+}
+.ring{
+ position:absolute;border-radius:50%;
+}
+.r1{
+ inset:0;border:1px solid #b27a394a;
+ border-top:2px solid var(--gold);
+ border-bottom:2px solid #f28b2560;
+ animation:rotate 18s linear infinite;
+}
+.r2{
+ inset:7%;border:1px dashed #b47b405e;
+ animation:rotate 26s linear infinite reverse;
+}
+.r3{
+ inset:15%;border:2px solid transparent;
+ border-left-color:#f4a544;
+ border-right-color:#f4a544;
+ border-top-color:#f4a54470;
+ animation:rotate 8s linear infinite;
+}
+.r4{
+ inset:23%;border:1px solid #ffce7c70;
+ animation:rotate 12s linear infinite reverse;
+}
+.r5{
+ inset:31%;border:1px dashed #e9a24c99;
+ animation:rotate 5s linear infinite;
+}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.core{
+ width:34%;height:34%;border-radius:50%;
+ position:relative;z-index:2;
+ background:radial-gradient(circle at 35% 30%,
+ #fff5d6 0%,#ffd68b 8%,#ffac42 24%,
+ #dc6e13 52%,#542406 85%);
+ box-shadow:
+ 0 0 15px #ffc46b,
+ 0 0 35px #ed8a26,
+ 0 0 75px #c65a133d,
+ inset -8px -8px 18px #3d1600;
+ animation:breathe 3s ease-in-out infinite;
+}
+@keyframes breathe{
+ 50%{transform:scale(1.09);filter:brightness(1.3)}
+}
+.hologram.listening .core{animation:breathe .6s infinite}
+.hologram.thinking .r1{animation-duration:2s}
+.hologram.thinking .r3{animation-duration:1s}
+.hologram.speaking .core{animation:breathe .4s infinite}
+.hologram.listening .r1,
+.hologram.listening .r3{border-color:var(--light)}
+.orbit-dot{
+ position:absolute;inset:0;
+ border-radius:50%;
+ animation:rotate 9s linear infinite;
+}
+.orbit-dot:after{
+ content:"";position:absolute;
+ width:6px;height:6px;border-radius:50%;
+ background:var(--light);
+ box-shadow:0 0 12px var(--gold);
+ top:-2px;left:50%;
+}
+.hologram-name{
+ text-align:center;font-size:24px;
+ letter-spacing:9px;color:var(--light);
+ margin-top:7px;
+}
+.hologram-desc{
+ font-size:9px;letter-spacing:2px;
+ color:var(--muted);margin-top:8px;
+ text-align:center;
+}
+.visualizer{
+ display:flex;align-items:center;
+ justify-content:center;gap:4px;
+ height:32px;margin-top:12px;
+}
+.visualizer i{
+ width:3px;height:5px;border-radius:5px;
+ background:var(--gold);opacity:.7;
+}
+.visualizer.active i{
+ animation:wave .55s ease-in-out infinite alternate;
+}
+.visualizer i:nth-child(2n){animation-delay:.2s}
+.visualizer i:nth-child(3n){animation-delay:.35s}
+@keyframes wave{to{height:24px}}
+.response-card{
+ width:100%;margin-top:15px;
+ border:1px solid var(--line);
+ border-radius:13px;background:var(--panel);
+ padding:14px 15px;
+}
+.response-heading{
+ display:flex;align-items:center;
+ justify-content:space-between;
+ font-size:9px;letter-spacing:2px;
+ color:var(--gold);
+}
+.response-heading span:last-child{
+ color:var(--muted);letter-spacing:1px;
+}
+.response{
+ font-size:13px;line-height:1.65;
+ color:#d5d0c6;margin-top:12px;
+ min-height:24px;overflow-wrap:anywhere;
+ white-space:pre-wrap;
+}
+.transcript{
+ font-size:11px;color:var(--muted);
+ margin-top:9px;min-height:15px;
+}
+.info-grid{
+ width:100%;display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;margin:13px 0 18px;
+}
+.info{
+ padding:11px 9px;
+ border:1px solid var(--line);
+ background:#101215;border-radius:10px;
+}
+.info-label{
+ font-size:8px;letter-spacing:1px;
+ color:var(--muted);
+}
+.info-value{
+ font-size:12px;color:#e7bd79;
+ margin-top:7px;
+}
+footer{
+ flex-shrink:0;border-top:1px solid var(--line);
+ padding:14px 0 17px;
+ background:var(--bg);
+}
+.controls{
+ display:flex;justify-content:center;
+ align-items:center;gap:23px;
+}
+.control{
+ width:43px;height:43px;border-radius:13px;
+ border:1px solid var(--line);
+ background:var(--panel);
+ color:#c4b7a0;display:grid;place-items:center;
+}
+.control svg{width:19px;height:19px}
+.control.main-control{
+ width:59px;height:59px;border-radius:50%;
+ border:1px solid #d18b39;
+ background:radial-gradient(circle,#523014,#201308);
+ color:var(--light);
+ box-shadow:0 0 22px #ef90252b;
+}
+.control.active{
+ background:#68360f;
+ color:var(--light);
+ box-shadow:0 0 20px #ef90255a;
+}
+.input-area{
+ display:flex;gap:8px;margin-top:14px;
+}
+.input-area input{
+ flex:1;min-width:0;
+ border:1px solid var(--line);
+ background:#121417;color:#eee1c9;
+ padding:13px 15px;border-radius:11px;
+ outline:none;font-size:12px;
+}
+.input-area input:focus{border-color:#b47a3c}
+.send{
+ width:44px;border-radius:11px;
+ border:1px solid #b47a3c;
+ background:#35200d;color:var(--gold);
+}
+.footer-note{
+ text-align:center;font-size:8px;
+ color:#71685a;letter-spacing:2px;
+ margin-top:12px;
+}
+.settings{
+ display:none;position:fixed;inset:0;
+ z-index:10;background:#000b;
+ align-items:center;justify-content:center;
+ padding:20px;
+}
+.settings-box{
+ width:100%;max-width:380px;
+ background:#15171a;border:1px solid #71502e;
+ border-radius:15px;padding:20px;
+}
+.settings-box h3{
+ font-size:13px;letter-spacing:3px;
+ color:var(--gold);
+}
+.settings-box p{font-size:11px;color:var(--muted)}
+.settings-box input{
+ width:100%;padding:13px;
+ border:1px solid var(--line);
+ background:#090a0c;color:white;
+ border-radius:9px;outline:none;margin:8px 0;
+}
+.settings-actions{display:flex;gap:8px;margin-top:10px}
+.settings-actions button{
+ flex:1;padding:11px;border-radius:8px;
+ border:1px solid #8b632e;background:#25190d;
+ color:var(--gold);
+}
+@media(max-height:700px){
+ .hologram{width:min(48vw,205px)}
+ .hologram-area{padding:10px 0 4px}
+ .section-label{padding-top:10px}
+ .response-card{margin-top:8px}
+ .info-grid{margin:8px 0}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+ <div class="brand">
+  <div class="brand-mark">F</div>
+  <div>
+   <div class="brand-name">FRIDAY</div>
+   <div class="brand-sub">ARTIFICIAL INTELLIGENCE</div>
+  </div>
+ </div>
+ <div class="connection">
+  <span class="connection-dot"></span>
+  <span id="connection">SYSTEM READY</span>
+ </div>
+</header>
+
+<main>
+ <div class="section-label">
+  <span>NEURAL INTERFACE</span>
+  <span>VERSION 3.0</span>
+ </div>
+
+ <div class="hologram-area">
+  <div class="hologram" id="hologram">
+   <div class="halo"></div>
+   <div class="ring r1"></div>
+   <div class="ring r2"></div>
+   <div class="ring r3"></div>
+   <div class="ring r4"></div>
+   <div class="ring r5"></div>
+   <div class="orbit-dot"></div>
+   <div class="core"></div>
+  </div>
+ </div>
+
+ <div class="hologram-name">FRIDAY</div>
+ <div class="hologram-desc" id="state">
+  SYSTEM STANDBY
+ </div>
+
+ <div class="visualizer" id="visualizer">
+  <i></i><i></i><i></i><i></i><i></i>
+  <i></i><i></i><i></i><i></i><i></i>
+  <i></i><i></i><i></i><i></i><i></i>
+ </div>
+
+ <div class="response-card">
+  <div class="response-heading">
+   <span>FRIDAY RESPONSE</span>
+   <span id="response-status">READY</span>
+  </div>
+  <div class="response" id="response">
+   Merhaba efendim. Sistemlerim hazır. Size nasıl yardımcı olabilirim?
+  </div>
+  <div class="transcript" id="transcript">
+   Komutlarınızı bekliyorum.
+  </div>
+ </div>
+
+ <div class="info-grid">
+  <div class="info">
+   <div class="info-label">AI ENGINE</div>
+   <div class="info-value">GROQ</div>
+  </div>
+  <div class="info">
+   <div class="info-label">LANGUAGE</div>
+   <div class="info-value">TURKISH</div>
+  </div>
+  <div class="info">
+   <div class="info-label">VOICE</div>
+   <div class="info-value" id="voice-status">ACTIVE</div>
+  </div>
+ </div>
+</main>
+
+<footer>
+ <div class="controls">
+
+  <button class="control" onclick="openSettings()" aria-label="Ayarlar">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19 13.5a7 7 0 0 0 0-3l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2.6-1.5L13.5 2h-4L9 5a8 8 0 0 0-2.5 1.5l-2.5-1L2 9l2 1.5a7 7 0 0 0 0 3L2 15l2 3.5 2.5-1A8 8 0 0 0 9 19l.5 3h4l.5-3a8 8 0 0 0 2.6-1.5l2.4 1 2-3.5z"/>
+   </svg>
+  </button>
+
+  <button class="control" onclick="newChat()" aria-label="Yeni sohbet">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <path d="M20 11a8 8 0 0 0-14-5L4 8"/>
+    <path d="M4 3v5h5"/>
+    <path d="M4 13a8 8 0 0 0 14 5l2-2"/>
+    <path d="M20 21v-5h-5"/>
+   </svg>
+  </button>
+
+  <button class="control main-control" id="mic" onclick="listen()" aria-label="Dinle">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+    <rect x="9" y="2" width="6" height="13" rx="3"/>
+    <path d="M5 11a7 7 0 0 0 14 0M12 18v4m-4 0h8"/>
+   </svg>
+  </button>
+
+  <button class="control" onclick="toggleVoice()" aria-label="Ses">
+   <svg id="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <path d="M4 10v4h4l5 4V6l-5 4z"/>
+    <path d="M16 9a5 5 0 0 1 0 6M18 5a10 10 0 0 1 0 14"/>
+   </svg>
+  </button>
+
+  <button class="control" onclick="stopAll()" aria-label="Durdur">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <rect x="5" y="5" width="14" height="14" rx="3"/>
+   </svg>
+  </button>
+ </div>
+
+ <div class="input-area">
+  <input id="message" placeholder="FRIDAY'e bir komut verin...">
+  <button class="send" onclick="send()">➤</button>
+ </div>
+ <div class="footer-note">FRIDAY INTELLIGENCE SYSTEM</div>
+</footer>
+</div>
+
+<div class="settings" id="settings">
+ <div class="settings-box">
+  <h3>SYSTEM CONFIGURATION</h3>
+  <p>Groq API bağlantı anahtarınız</p>
+  <input id="apiKey" type="password" placeholder="gsk_...">
+  <div class="settings-actions">
+   <button onclick="saveKey()">SAVE</button>
+   <button onclick="closeSettings()">CLOSE</button>
+  </div>
+  <p>Model: openai/gpt-oss-20b</p>
+ </div>
+</div>
+
+<script>
+const MODEL="openai/gpt-oss-20b";
+const API="https://api.groq.com/openai/v1/chat/completions";
+
+let history=[];
+let busy=false;
+let voice=true;
+let recognition=null;
+
+const el=id=>document.getElementById(id);
+
+function mode(type,label){
+ el("hologram").className="hologram "+type;
+ el("state").textContent=label;
+ el("visualizer").classList.toggle(
+  "active",["listening","thinking","speaking"].includes(type)
+ );
+}
+
+function openSettings(){
+ el("settings").style.display="flex";
+ el("apiKey").value=localStorage.getItem("friday_key")||"";
+}
+function closeSettings(){
+ el("settings").style.display="none";
+}
+function saveKey(){
+ const key=el("apiKey").value.trim();
+ if(!key)return alert("API anahtarını girin.");
+ localStorage.setItem("friday_key",key);
+ el("connection").textContent="CONNECTED";
+ closeSettings();
+}
+
+function speak(text){
+ if(!voice)return;
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang="tr-TR";
+ u.rate=1;
+ u.pitch=1.05;
+ u.onstart=()=>mode("speaking","SPEAKING");
+ u.onend=()=>mode("","SYSTEM STANDBY");
+ speechSynthesis.speak(u);
+}
+
+function toggleVoice(){
+ voice=!voice;
+ el("voice-status").textContent=voice?"ACTIVE":"MUTED";
+ if(!voice)speechSynthesis.cancel();
+}
+
+async function send(value){
+ const text=(value||el("message").value).trim();
+ if(!text||busy)return;
+
+ const key=localStorage.getItem("friday_key");
+ if(!key){openSettings();return;}
+
+ el("message").value="";
+ el("transcript").textContent="YOU: "+text;
+ el("response").textContent="İsteğiniz analiz ediliyor...";
+ el("response-status").textContent="PROCESSING";
+
+ history.push({role:"user",content:text});
+ busy=true;
+ mode("thinking","ANALYZING");
+ el("connection").textContent="PROCESSING";
+
+ try{
+  const r=await fetch(API,{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "Authorization":"Bearer "+key
+   },
+   body:JSON.stringify({
+    model:MODEL,
+    messages:[
+     {role:"system",content:
+      "Sen FRIDAY isimli gelişmiş bir yapay zekâ asistanısın. Her zaman Türkçe konuş. Kibar, zeki, doğal ve profesyonel ol. Gerektiğinde kullanıcıya efendim diye hitap et. Genellikle 2-5 cümleyle cevap ver. Bilmediğin bilgileri uydurma. Adın FRIDAY."
+     },
+     ...history
+    ],
+    temperature:0.7,
+    max_completion_tokens:700
+   })
+  });
+
+  const data=await r.json();
+  if(!r.ok)throw Error(data.error?.message||"API error "+r.status);
+
+  const answer=data.choices?.[0]?.message?.content;
+  if(!answer)throw Error("Boş yanıt alındı.");
+
+  history.push({role:"assistant",content:answer});
+  el("response").textContent=answer;
+  el("response-status").textContent="COMPLETE";
+  el("connection").textContent="CONNECTED";
+  speak(answer);
+  if(!voice)mode("","SYSTEM STANDBY");
+
+ }catch(e){
+  el("response").textContent="Sistem hatası: "+e.message;
+  el("response-status").textContent="ERROR";
+  el("connection").textContent="ERROR";
+  mode("","CONNECTION ERROR");
+ }finally{
+  busy=false;
+ }
+}
+
+function listen(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){
+  alert("Ses tanıma desteklenmiyor. Chrome kullanın.");
+  return;
+ }
+ if(recognition){recognition.stop();return;}
+
+ recognition=new SR();
+ recognition.lang="tr-TR";
+ recognition.continuous=false;
+ recognition.interimResults=true;
+
+ recognition.onstart=()=>{
+  el("mic").classList.add("active");
+  mode("listening","LISTENING");
+  el("transcript").textContent="Sizi dinliyorum...";
+ };
+ recognition.onresult=e=>{
+  let final="",partial="";
+  for(let i=e.resultIndex;i<e.results.length;i++){
+   if(e.results[i].isFinal)final+=e.results[i][0].transcript;
+   else partial+=e.results[i][0].transcript;
+  }
+  el("transcript").textContent=final||partial;
+  if(final)send(final);
+ };
+ recognition.onerror=e=>{
+  el("transcript").textContent="Mikrofon hatası: "+e.error;
+ };
+ recognition.onend=()=>{
+  el("mic").classList.remove("active");
+  recognition=null;
+  if(!busy)mode("","SYSTEM STANDBY");
+ };
+ recognition.start();
+}
+
+function stopAll(){
+ if(recognition)recognition.stop();
+ speechSynthesis.cancel();
+ mode("","SYSTEM STANDBY");
+}
+
+function newChat(){
+ history=[];
+ speechSynthesis.cancel();
+ el("response").textContent="Yeni oturum başlatıldı. Emirlerinizi bekliyorum efendim.";
+ el("transcript").textContent="NEW SESSION";
+ el("response-status").textContent="READY";
+ mode("","SYSTEM STANDBY");
+}
+
+el("message").addEventListener("keydown",e=>{
+ if(e.key==="Enter")send();
+});
+</script>
+</body>
+</html>
