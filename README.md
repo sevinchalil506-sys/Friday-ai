@@ -1,0 +1,2 @@
+# Friday-ai
+Ai turkish
